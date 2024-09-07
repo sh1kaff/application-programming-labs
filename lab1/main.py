@@ -1,4 +1,7 @@
 import argparse
+import re
+
+number_regex = r"(?:(?:\+?[7])|(?:\b[8])) ?(\d{3}) ?\d{3}-?\d{2}-?\d{2}"
 
 
 if __name__ == "__main__":
