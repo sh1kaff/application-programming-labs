@@ -30,3 +30,11 @@ if __name__ == "__main__":
     parser.add_argument("filename", type=str, help="Path to file.")
     
     args = parser.parse_args()
+
+    try:
+        print("Codes:", end=" ")
+        for code in get_common_codes(args.filename): print(code)
+    except FileNotFoundError:
+        print("Incorrect object or path to file!")
+    except Exception as e:
+        print("Something wrong ;/ => {e.text}")
