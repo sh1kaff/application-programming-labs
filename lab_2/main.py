@@ -9,7 +9,7 @@ from imgiterator import ImgIterator
 error_text = "[{func_name}] Error: {err_txt}"
 count_images = 50
 
-if __name__ == "__main__":
+def _parse_arguments():
     parser = argparse.ArgumentParser(
         prog="main.py",
         description="Download target images",
@@ -18,7 +18,10 @@ if __name__ == "__main__":
     parser.add_argument("keyword", type=str, help="What do you want search.")
     parser.add_argument("dir", type=str, help="Path to end directory.")
     
-    args = parser.parse_args()
+    return parser.parse_args()
+
+if __name__ == "__main__":
+    args = _parse_arguments()
 
     try:
         root_dir = download_images(args.keyword, count_images, dir=args.dir)
@@ -39,10 +42,8 @@ if __name__ == "__main__":
     with tqdm(range(count_images), desc="Total") as pbar:
         for rel_path, abs_path in img_iterator:
             sleep(0.15)
-            
+
             pbar.write(rel_path + " " + abs_path)
             pbar.update(1)
-            
-        
 
     
