@@ -2,14 +2,14 @@ from icrawler.builtin import GoogleImageCrawler
 
 base_dir = "images"
 
-def download_images(keyword: str, num: int = 10, dir: str = "images") -> str:
+def download_images(keyword: str, num: int, dir: str = "images") -> str:
     """
     Function for downloading images from Google using icrawler.
 
     Parameters:
     keyword (str): what are you search.
     num (int): number of photos you want download.
-    dir (str): directory to save.
+    dir (str): directory to save. Default: "images"
 
     Returns:
     str: path to directory where files save.

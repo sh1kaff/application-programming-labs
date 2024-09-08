@@ -7,7 +7,7 @@ def dir2csv(dir: str, csv_name: str = "some") -> None:
 
     Parameters:
     dir (str): path to directory where stored the images. 
-    csv_name (str): name csv-file (without ext.) for new file.
+    csv_name (str): name csv-file (without ext.) for new file. Default: "some"
     """
     
     with open(csv_name + ".csv", "w", newline="") as csvfile:
