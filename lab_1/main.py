@@ -3,7 +3,16 @@ import re
 
 number_regex = r"(?:(?:\+?[7])|(?:\b[8])) ?(\d{3}) ?\d{3}-?\d{2}-?\d{2}"
 
-def get_common_codes(filename):
+def get_common_codes(filename: str):
+    """
+    Open and read target file. Find strings starts with number phone field and uses regexp to find phone codes.
+
+    Patameters:
+    filename (str): path to target file.
+
+    Returns:
+    Generator[int]
+    """
     matches = dict()
 
     with open(filename, "r", encoding="utf-8") as file:
