@@ -19,7 +19,7 @@ def get_codes(filename: str) -> dict:
     filename (str): name of target file.
 
     Returns
-    dict 
+    dict: dict contains numbers and it count with format code:count
     """
     number_regex = r"(?:(?:\+?[7])|(?:\b[8])) ?(\d{3}) ?\d{3}-?\d{2}-?\d{2}"
     codes = dict()
@@ -36,7 +36,7 @@ def get_codes(filename: str) -> dict:
     
     return codes
 
-def get_max_codes(codes: dict):
+def get_max_codes(codes: dict) -> filter:
     """
     Filter dict and returns most count codes.
 
@@ -44,7 +44,7 @@ def get_max_codes(codes: dict):
     codes (dict): Dict of all numbers.
 
     Returns
-    generator
+    filter: result that contains max codes
     """
     max_code = max(codes.values())
     return filter(lambda key: codes[key] == max_code, codes)
@@ -67,5 +67,3 @@ def main():
 
 if __name__ == "__main__":
    main()
-
-   
