@@ -9,7 +9,13 @@ from imgiterator import ImgIterator
 error_text = "[{func_name}] Error: {err_txt}"
 count_images = 50
 
-def _parse_arguments():
+def _parse_arguments() -> list:
+    """
+    Parse arguments from stdin in execution moment.
+
+    Returns:
+    list: list of the aruments
+    """
     parser = argparse.ArgumentParser(
         prog="main.py",
         description="Download target images",
@@ -20,19 +26,14 @@ def _parse_arguments():
     
     return parser.parse_args()
 
-if __name__ == "__main__":
+def main():
     args = _parse_arguments()
 
     try:
         root_dir = download_images(args.keyword, count_images, dir=args.dir)
-    except Exception as e:
-        print(error_text.format(func_name="download_images", err_txt=e.text))
-        exit()
-
-    try:
         dir2csv(root_dir, csv_name=args.keyword)
     except Exception as e:
-        print(error_text.format(func_name="dir2csv", err_txt=e.text))
+        print(f"Something strange: {e}")
         exit()
 
     img_iterator = ImgIterator(args.keyword)
@@ -45,5 +46,8 @@ if __name__ == "__main__":
 
             pbar.write(rel_path + " " + abs_path)
             pbar.update(1)
+    
 
+if __name__ == "__main__":
+    main()
     
