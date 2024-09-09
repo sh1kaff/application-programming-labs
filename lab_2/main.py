@@ -6,7 +6,6 @@ from images import download_images
 from dir2csv import dir2csv
 from imgiterator import ImgIterator
 
-error_text = "[{func_name}] Error: {err_txt}"
 count_images = 50
 
 def _parse_arguments() -> list:
