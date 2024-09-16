@@ -1,4 +1,5 @@
 import cv2
+from matplotlib import pyplot as plt
 from numpy import ndarray
 
 def get_hist(img: ndarray, channel: int) -> ndarray:
@@ -17,6 +18,36 @@ def get_hist(img: ndarray, channel: int) -> ndarray:
         raise ValueError("Argument channel must be between 0 and 2 (includes)!")
 
     return cv2.calcHist([img], [channel], None, [256], [0, 256])
+
+
+def show_hist(img: ndarray) -> None:
+    """
+    Show hist for image 'img' using matplotlib.
+
+    Parameters:
+    img (ndarray): Input image.
+    """
+    colors = ("blue", "green", "red", "black")
+    legend = (*map(lambda s: s.capitalize() + " channel", colors[:-1]), "Summary")
+
+    hist = None
+    for channel, color in zip( (0, 1, 2), colors[:-1] ):
+        current_hist = get_hist(img, channel)
+        if hist is None:
+            hist = current_hist
+        else:
+            hist += current_hist
+        plt.plot(current_hist, color=color)
+
+    plt.plot(hist, color=colors[-1])
+    plt.ylabel("Pixels count")
+    plt.xlabel("Pixels range")
+
+    plt.legend(legend)
+
+    plt.title("Image Histogram")
+    plt.show()
+
 
 def overlay_images(img_main: ndarray, img_overlay: ndarray, trn: int, force: bool = True) -> ndarray:
     """
