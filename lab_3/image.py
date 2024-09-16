@@ -1,16 +1,43 @@
 import cv2
+from numpy import ndarray
 
-def get_hist(img, channel):
+def get_hist(img: ndarray, channel: int) -> ndarray:
+    """
+    Returns hist for image for specify channel.
+
+    Parameters:
+    img (ndarry): Input image.
+    channel (ing): One channel of 0, 1, 2.
+
+    Returns:
+    ndarray: Output hist.
+    """
+    
+    if channel > 2 or channel < 0:
+        raise ValueError("Argument channel must be between 0 and 2 (includes)!")
+
     return cv2.calcHist([img], [channel], None, [256], [0, 256])
 
-def overlay_images(img_main, img_overlay, trn: int, force: bool = True):
+def overlay_images(img_main: ndarray, img_overlay: ndarray, trn: int, force: bool = True) -> ndarray:
+    """
+    Overlay 2 images.
+
+    Parameters:
+    img_main (ndarray): Main image.
+    img_overlay (ndarray): Overlay image.
+    trn (ing): Transparency value in percentage between 0 and 100.
+    force (bool): Force resize img_overlay if it size don't match.
+
+    Returns:
+    ndarray: Result added image.
+    """
     if trn > 100 or trn < 0:
-        raise ValueError("fignya")
+        raise ValueError("Percentage must be between 0 and 100!")
 
     trn_result = 1 - trn / 100
 
     if not force and (img_main.shape[:2] != img_overlay.shape[:2]):
-        raise ValueError("Sizes don't match")
+        raise ValueError(f"Sizes don't match: {img_main.shape[:2]} and {img_overlay.shape[:2]}")
     elif force:
         img_overlay = cv2.resize(img_overlay, (img_main.shape[1], img_main.shape[0]))
         

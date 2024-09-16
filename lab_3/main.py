@@ -1,62 +1,45 @@
-# https://habr.com/ru/companies/otus/articles/558426/
-# https://tproger.ru/translations/opencv-python-guide
-# https://ru.wikipedia.org/wiki/Гистограмма_(фотография)
-# https://www.geeksforgeeks.org/python-opencv-cv2-calchist-method/
-# https://docs.opencv.org/3.4/d8/dbc/tutorial_histogram_calculation.html
-
 import argparse
-
 import cv2
-from matplotlib import pyplot as plt
 
-def _parse_arguments():
+from histogram import show_hist
+from image import overlay_images
+
+
+def _parse_arguments() -> list:
+    """
+    Function for get arguments from cli.
+
+    Returns:
+    list: List of arguments.
+    """
     parser = argparse.ArgumentParser(
         prog="main.py",
-        description="...",
+        description="Programm gets 2 image files from stdout and transparency and adds these images using transparency.",
         epilog="o:" 
     )
-    parser.add_argument("img_main", type=str, help="...")
-    parser.add_argument("img_overlay", type=str, help="....")
+    parser.add_argument("img_main", type=str, help="Main image.")
+    parser.add_argument("img_overlay", type=str, help="Overlay image.")
+    parser.add_argument("trn", type=int, help="TRaNsparency: value from 0 to 100.")
+    parser.add_argument("-f", "--force", action="store_true", help="Force using resize \
+                         overlay image if it size not match with main image.")
     
     return parser.parse_args()
 
-def show_hist(img):
-    colors = ("blue", "green", "red", "black")
-    legend = (*map(lambda s: s.capitalize() + " channel", colors[:-1]), "Summary")
 
-    hist = None
-    for channel, color in zip( (0, 1, 2), colors[:-1] ):
-        current_hist = cv2.calcHist([img], [channel], None, [256], [0, 256])
-        if hist is None:
-            hist = current_hist
-        else:
-            hist += current_hist
-        plt.plot(current_hist, color=color)
-
-    plt.plot(hist, color=colors[-1])
-    plt.ylabel("Pixels")
-    plt.xlabel("Brightness")
-
-    plt.legend(legend)
-
-    plt.title("Image Histogram")
-    plt.show()
-
-
-def main():
+def main() -> None:
     args = _parse_arguments()
     
-    img1 = cv2.imread(args.img_main)
-    img2 = cv2.imread(args.img_overlay)
+    img_main = cv2.imread(args.img_main)
+    img_overlay = cv2.imread(args.img_overlay)
 
-    print(img1.shape)  # sizes in h,w,c
-    print(img1.size)  # size in bytes
+    for img in (img_main, img_overlay):
+        print(f"Main image sizes: {img.shape}, {img.size}b")
+        show_hist(img)
 
-    show_hist(img1)
-    show_hist(img2)
+    result = overlay_images(img_main, img_overlay, args.trn, force=args.force)
 
-    
-
+    cv2.imshow("Overlay", result)
+    cv2.waitKey(0)
 
 
 if __name__ == "__main__":
