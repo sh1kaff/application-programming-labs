@@ -1,9 +1,9 @@
-from tqdm import tqdm
-from time import sleep
 import argparse
+from time import sleep
+from tqdm import tqdm
 
-from images import download_images
 from dir2csv import dir2csv
+from images import download_images
 from imgiterator import ImgIterator
 
 count_images = 50
