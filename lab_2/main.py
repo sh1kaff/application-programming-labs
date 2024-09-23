@@ -2,11 +2,9 @@ import argparse
 from time import sleep
 from tqdm import tqdm
 
-from dir2csv import dir2csv
-from images import download_images
+from images import download_images, little_dir
+from dir2csv import dir2csv, default_path
 from imgiterator import ImgIterator
-
-count_images = 50
 
 def _parse_arguments() -> list:
     """
@@ -21,7 +19,9 @@ def _parse_arguments() -> list:
         epilog="o:" 
     )
     parser.add_argument("keyword", type=str, help="What do you want search.")
-    parser.add_argument("dir", type=str, help="Path to end directory.")
+    parser.add_argument("-c", "--csv", type=str, default=default_path, help="Path to csv file.")
+    parser.add_argument("-d" ,"--dir", type=str, default=little_dir, help="Path to end directory where images store.")
+    parser.add_argument("-n", "--number", type=int, default=50, help="Number of downloading files.")
     
     return parser.parse_args()
 
@@ -29,17 +29,17 @@ def main():
     args = _parse_arguments()
 
     try:
-        root_dir = download_images(args.keyword, count_images, dir=args.dir)
-        dir2csv(root_dir, csv_name=args.keyword)
+        root_dir = download_images(args.keyword, args.number, dir=args.dir)
+        result_path = dir2csv(root_dir, csv_path=args.csv)
     except Exception as e:
         print(f"Something strange: {e}")
         exit()
 
-    img_iterator = ImgIterator(args.keyword)
+    img_iterator = ImgIterator(result_path)
 
     print(f"Rel. and abs. pathes for images with \"{args.keyword}\":")
     
-    with tqdm(range(count_images), desc="Total") as pbar:
+    with tqdm(range(args.number), desc="Total") as pbar:
         for rel_path, abs_path in img_iterator:
             sleep(0.15)
 
@@ -49,4 +49,3 @@ def main():
 
 if __name__ == "__main__":
     main()
-    
