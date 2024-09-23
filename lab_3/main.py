@@ -1,9 +1,10 @@
 import argparse
 import cv2
 
-from histogram import show_hist
-from image import overlay_images
+from image import overlay_images, show_hist
 
+# Добавить try
+# Мб чуть красивее _parse_arguments
 
 def _parse_arguments() -> list:
     """
