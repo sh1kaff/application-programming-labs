@@ -13,8 +13,11 @@ class ImgIterator:
         Parameters:
         name (str): name (without ext.) of csv-file.
         """
-        
-        self.csv_file = name + ".csv"
+
+        self.csv_file = name
+        if not self.csv_file.endswith(".csv"):
+            self.csv_file += ".csv"
+
         self.file_exist = True
     
     def __iter__(self):
