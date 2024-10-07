@@ -27,10 +27,11 @@ class ImgIterator:
         """
         
         try:
-            file = open(self.csv_file, newline="")
-            self.csvreader = csv.reader(file)
+            self.file = open(self.csv_file, newline="")
         except:
             self.file_exist = False
+
+        self.csvreader = csv.reader(self.file)
         
         return self
     
@@ -43,4 +44,8 @@ class ImgIterator:
         if not self.file_exist:
             raise StopIteration
         
-        return self.csvreader.__next__()
+        try:
+            return self.csvreader.__next__()
+        except StopIteration:
+            self.file.close()
+            raise StopIteration
