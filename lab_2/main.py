@@ -1,9 +1,9 @@
 import argparse
-from time import sleep
 from tqdm import tqdm
+from time import sleep
 
+from dir2csv import dir2csv, default_name
 from images import download_images, little_dir
-from dir2csv import dir2csv, default_path
 from imgiterator import ImgIterator
 
 def _parse_arguments() -> list:
@@ -19,7 +19,7 @@ def _parse_arguments() -> list:
         epilog="o:" 
     )
     parser.add_argument("keyword", type=str, help="What do you want search.")
-    parser.add_argument("-c", "--csv", type=str, default=default_path, help="Path to csv file.")
+    parser.add_argument("-c", "--csv", type=str, default=default_name, help="Path to csv file.")
     parser.add_argument("-d" ,"--dir", type=str, default=little_dir, help="Path to end directory where images store.")
     parser.add_argument("-n", "--number", type=int, default=50, help="Number of downloading files.")
     
