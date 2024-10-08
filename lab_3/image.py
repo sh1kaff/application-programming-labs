@@ -20,7 +20,7 @@ def get_hist(img: ndarray, channel: int) -> ndarray:
     return cv2.calcHist([img], [channel], None, [256], [0, 256])
 
 
-def show_hist(img: ndarray) -> None:
+def show_hist(img: ndarray, hist_name: str = "Image") -> None:
     """
     Show hist for image 'img' using matplotlib.
 
@@ -45,7 +45,7 @@ def show_hist(img: ndarray) -> None:
 
     plt.legend(legend)
 
-    plt.title("Image Histogram")
+    plt.title(f"{hist_name} Histogram")
     plt.show()
 
 

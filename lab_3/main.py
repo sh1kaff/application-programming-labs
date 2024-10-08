@@ -26,6 +26,13 @@ def _parse_arguments() -> list:
     
     return parser.parse_args()
 
+def display(img, frameName="OpenCV Image"):
+    h, w = img.shape[0:2]
+    neww = 800
+    newh = int(neww*(h/w))
+    img = cv2.resize(img, (neww, newh))
+    cv2.imshow(frameName, img)
+    cv2.waitKey(0)
 
 def main() -> None:
     args = _parse_arguments()
@@ -33,13 +40,14 @@ def main() -> None:
     img_main = cv2.imread(args.img_main)
     img_overlay = cv2.imread(args.img_overlay)
 
-    for img in (img_main, img_overlay):
-        print(f"Main image sizes: {img.shape}, {img.size}b")
-        show_hist(img)
+    for img, img_name in zip( (img_main, img_overlay), (args.img_main, args.img_overlay) ):
+        print(f"{img_name} sizes: {img.shape}, {img.size}b")
+        show_hist(img, img_name)
 
     result = overlay_images(img_main, img_overlay, args.trn, force=args.force)
 
-    cv2.imshow("Overlay", result)
+    # cv2.imshow("Overlay", result)
+    display(result, "ovrlay")
     cv2.waitKey(0)
 
 
