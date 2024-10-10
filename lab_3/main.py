@@ -5,6 +5,7 @@ from image import overlay_images, show_hist
 
 # Добавить try
 # Мб чуть красивее _parse_arguments
+# test
 
 def _parse_arguments() -> list:
     """
