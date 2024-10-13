@@ -2,7 +2,14 @@ import cv2
 from matplotlib import pyplot as plt
 from numpy import ndarray
 
-def display(img, frame_name="OpenCV Image"):
+def display(img: ndarray, frame_name: str = "OpenCV Image") -> None:
+    """
+    Shows cv2's image.
+
+    Parameters:
+    img (ndarry): Input image.
+    frame_name (str): Frame's name.
+    """
     h, w = img.shape[0:2]
 
     new_h = 700
@@ -20,7 +27,7 @@ def get_hist(img: ndarray, channel: int) -> ndarray:
 
     Parameters:
     img (ndarry): Input image.
-    channel (ing): One channel of 0, 1, 2.
+    channel (int): One channel of 0, 1, 2.
 
     Returns:
     ndarray: Output hist.
