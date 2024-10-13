@@ -33,6 +33,7 @@ def _parse_arguments() -> list:
     parser.add_argument("trn", type=int, help="TRaNsparency: value from 0 to 100.")
     parser.add_argument("-f", "--force", action="store_true", help="Force using resize \
                          overlay image if it size not match with main image.")
+    parser.add_argument("-o", "--output", type=str, help="Saveing path")
     
     return parser.parse_args()
 
@@ -63,6 +64,13 @@ def main() -> None:
     
     display(result, f"[{args.img_main.split("\\")[-1]}] + {args.img_overlay.split("\\")[-1]}")
 
+    if args.output:
+        try:
+            cv2.imwrite(args.output, result)
+        except:
+            _print_error("Enter correct path!")
+
+        print(f"Saved to {args.output}")
 
 if __name__ == "__main__":
     main()
