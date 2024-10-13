@@ -1,7 +1,7 @@
 import argparse
 import cv2
 
-from image import overlay_images, show_hist
+from image import overlay_images, show_hist, display
 
 # Добавить try
 # Мб чуть красивее _parse_arguments
@@ -27,13 +27,6 @@ def _parse_arguments() -> list:
     
     return parser.parse_args()
 
-def display(img, frameName="OpenCV Image"):
-    h, w = img.shape[0:2]
-    neww = 800
-    newh = int(neww*(h/w))
-    img = cv2.resize(img, (neww, newh))
-    cv2.imshow(frameName, img)
-    cv2.waitKey(0)
 
 def main() -> None:
     args = _parse_arguments()
@@ -47,9 +40,7 @@ def main() -> None:
 
     result = overlay_images(img_main, img_overlay, args.trn, force=args.force)
 
-    # cv2.imshow("Overlay", result)
     display(result, "ovrlay")
-    cv2.waitKey(0)
 
 
 if __name__ == "__main__":

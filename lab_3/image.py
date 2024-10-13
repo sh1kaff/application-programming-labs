@@ -2,6 +2,18 @@ import cv2
 from matplotlib import pyplot as plt
 from numpy import ndarray
 
+def display(img, frame_name="OpenCV Image"):
+    h, w = img.shape[0:2]
+
+    new_h = 700
+    new_w = int( new_h * (w / h) )
+
+    img = cv2.resize( img, (new_w, new_h) )
+
+    cv2.namedWindow(frame_name, cv2.WINDOW_AUTOSIZE)
+    cv2.imshow(frame_name, img)
+    cv2.waitKey(0)
+
 def get_hist(img: ndarray, channel: int) -> ndarray:
     """
     Returns hist for image for specify channel.
