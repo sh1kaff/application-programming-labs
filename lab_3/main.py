@@ -1,7 +1,7 @@
 import argparse
 import cv2
 
-from image import overlay_images, show_hist, display
+from image import display, overlay_images, show_hist
 
 PRFX = "[!]"
 ERRMSG = PRFX + " " + "Some error: {e}" 
@@ -61,7 +61,7 @@ def main() -> None:
     except ValueError as e:
         _print_error(e)
     
-    display(result, "ovrlay")
+    display(result, f"[{args.img_main.split("\\")[-1]}] + {args.img_overlay.split("\\")[-1]}")
 
 
 if __name__ == "__main__":
