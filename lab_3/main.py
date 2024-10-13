@@ -3,9 +3,18 @@ import cv2
 
 from image import overlay_images, show_hist, display
 
-# Добавить try
-# Мб чуть красивее _parse_arguments
-# test
+PRFX = "[!]"
+ERRMSG = PRFX + " " + "Some error: {e}" 
+
+def _print_error(err_msg: str = "") -> None:
+    """
+    Print error text and exit programm.
+
+    Parameters:
+    err_msg (str): Error message.
+    """
+    print( ERRMSG.format(e=err_msg) )
+    exit()
 
 def _parse_arguments() -> list:
     """
@@ -31,15 +40,27 @@ def _parse_arguments() -> list:
 def main() -> None:
     args = _parse_arguments()
     
-    img_main = cv2.imread(args.img_main)
-    img_overlay = cv2.imread(args.img_overlay)
+    try:
+        img_main = cv2.imread(args.img_main)
+        img_overlay = cv2.imread(args.img_overlay)
+    except Exception as e:
+        _print_error(e)
+
+    if img_main is None or img_overlay is None:
+        _print_error("Please check images paths.")
 
     for img, img_name in zip( (img_main, img_overlay), (args.img_main, args.img_overlay) ):
         print(f"{img_name} sizes: {img.shape}, {img.size}b")
-        show_hist(img, img_name)
+        try:
+            show_hist(img, img_name)
+        except Exception as e:
+            _print_error(e)
 
-    result = overlay_images(img_main, img_overlay, args.trn, force=args.force)
-
+    try:
+        result = overlay_images(img_main, img_overlay, args.trn, force=args.force)
+    except ValueError as e:
+        _print_error(e)
+    
     display(result, "ovrlay")
 
 
