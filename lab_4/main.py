@@ -2,17 +2,8 @@ import pandas as pd
 from cv2 import imread
 
 def main():
-    df = pd.read_csv("putin.csv", names=["RP", "AP", "H", "W", "CH"], skiprows=1)
-    
-    # for row in df:
-    #     print(row)
-    #     break
-
-    # print(df)
-
-    
-
-    # print(df)
+    filename = "putin.csv"
+    df = pd.read_csv(filename, names=["RP", "AP", "H", "W", "CH"], skiprows=1)
 
     for idx in range( len(df) ):
         path = df.at[idx, "AP"]
@@ -24,12 +15,7 @@ def main():
 
         df.iloc[idx, 2:] = sizes
 
-        # print(sizes)
-
-
-    print(df)
-
-    # print(df.at[0, "RP"])
+    print(df.iloc[:, 2:].describe())
 
 if __name__ == "__main__":
     main()
