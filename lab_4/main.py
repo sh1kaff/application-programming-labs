@@ -8,14 +8,26 @@ def main():
     #     print(row)
     #     break
 
+    # print(df)
+
+    
+
+    # print(df)
+
     for idx in range( len(df) ):
         path = df.at[idx, "AP"]
         img = imread(path)
-        sizes = img.size if img else None
-        print(sizes)
+        sizes = None
+
+        if img is not None:
+            sizes = img.shape
+
+        df.iloc[idx, 2:] = sizes
+
+        # print(sizes)
 
 
-    print(len(df))
+    print(df)
 
     # print(df.at[0, "RP"])
 
