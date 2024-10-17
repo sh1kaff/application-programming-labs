@@ -35,7 +35,7 @@ def init_df(filename: str) -> pd.DataFrame:
         sizes = img.shape + (img.shape[0] * img.shape[1], )
         df.loc[idx, LABELS[2:]] = sizes
     
-    return df
+    return df.reset_index(drop=True)
 
 
 def filter_df(df: pd.DataFrame, max_height: float, max_width: float) -> pd.DataFrame:
