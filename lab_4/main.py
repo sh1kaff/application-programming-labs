@@ -1,51 +1,57 @@
-import pandas as pd
-from cv2 import imread
+import argparse
 
-LABELS = ("RP", "AP", "H", "W", "CH", "S")
+from dataframe import init_df, filter_df, show_s_dist
 
-def init_df(filename):
-    df = pd.read_csv(filename, names=list(LABELS), skiprows=1)
+def _parse_arguments() -> list:
+    """
+    Function for get arguments from cli.
+    Returns:
+    list: List of arguments.
+    """
+    parser = argparse.ArgumentParser(
+        prog="main.py",
+        description="Programm gets path to csv file and output some stats information.",
+        epilog="o:" 
+    )
+    parser.add_argument("csv", type=str, help="Path to csv")
 
-    for idx in range( len(df) ):
-        path = df.at[idx, "AP"]
-        img = imread(path)
-        sizes = None
-
-        if img is None:
-            df.drop(index=idx, inplace=True)
-            continue
-
-        sizes = img.shape + (img.shape[0] * img.shape[1], )
-        df.loc[idx, LABELS[2:]] = sizes
-    
-    return df
-
-
-def filter_df(df, max_height, max_weight):
-    return df[(df.H <= max_height) & (df.W <= max_weight)]
+    return parser.parse_args()
 
 def main():
-    df = init_df("putin.csv")
+    args = _parse_arguments()
+
+    try:
+        df = init_df(args.csv)
+    except Exception as e:
+        print(f"Some error: {e.text}")
+        exit()
 
     print(
         "DataFrame:\n",    
-        df
+        df,
+        "\n"
     )
 
     print(
         "Statistic information for H, W, CH:\n",
-        df.loc[:, ("H", "W", "CH")].describe()    
+        df.loc[:, ("H", "W", "CH")].describe(),
+        "\n"    
     )
 
     print(
         "Filter Function demonstration:\n",
-        filter_df(df, 800, 1000)
+        filter_df(df, 800, 1000),
+        "\n"
     )
 
     print(
         "Sorting datafram by S column:\n",
-        df.sort_values(by="S")
+        df.sort_values(by="S"),
+        "\n"
     )
+
+    show_s_dist(df)
+
 
 if __name__ == "__main__":
     main()
