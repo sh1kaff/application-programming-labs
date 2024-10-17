@@ -24,6 +24,7 @@ def main():
         df = init_df(args.csv)
     except Exception as e:
         print(f"Some error: {e.text}")
+        print("Please, check path to file or its internals.")
         exit()
 
     print(
@@ -38,9 +39,12 @@ def main():
         "\n"    
     )
 
+
+    max_height = 800
+    max_width = 1000
     print(
-        "Filter Function demonstration:\n",
-        filter_df(df, 800, 1000),
+        f"Filter Function demonstration (for {max_height=}, {max_width=}):\n",
+        filter_df(df, max_height, max_width),
         "\n"
     )
 

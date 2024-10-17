@@ -1,11 +1,27 @@
-import pandas as pd
-from matplotlib import pyplot as plt
 from cv2 import imread
+from matplotlib import pyplot as plt
+import pandas as pd
 
-def init_df(filename):
+def init_df(filename: str) -> pd.DataFrame:
+    """
+    Initializes a DataFrame from a csv file.
+    Columns abberviation used:
+    RP - Relative Path
+    AP - Absolete Path
+    H - Height
+    W - Width
+    CH - CHannel
+    S - Size (== area)
+
+    Parameters:
+    filename (str): path to file.
+
+    Returns:
+    pd.DataFrame: pandas DataFrame object.
+    """
     LABELS = ("RP", "AP", "H", "W", "CH", "S")
-    
-    df = pd.read_csv(filename, names=list(LABELS), skiprows=1)
+
+    df = pd.read_csv(filename, names=list(LABELS))
 
     for idx in range( len(df) ):
         path = df.at[idx, "AP"]
@@ -22,13 +38,30 @@ def init_df(filename):
     return df
 
 
-def filter_df(df, max_height, max_weight):
-    return df[(df.H <= max_height) & (df.W <= max_weight)]
+def filter_df(df: pd.DataFrame, max_height: float, max_width: float) -> pd.DataFrame:
+    """
+    Filters DataFrame.
 
-def show_s_dist(df):
+    Parameters:
+    df (pd.DataFrame): pandas DataFrame object.
+    max_height (float): maximum height.
+    max_width (float): maximum width.
+
+    Returns:
+    pd.DataFrame: pandas DataFrame object.
+    """
+    return df[(df.H <= max_height) & (df.W <= max_width)]
+
+def show_s_dist(df: pd.DataFrame) -> None:
+    """
+    Show size distribution graph using matplotlib.
+
+    Parameters:
+    df (pd.DataFrame): pandas DataFrame object.
+    """
     df.hist(column="S")
 
     plt.xlabel("Pixels")
     plt.ylabel("Count")
-    plt.title("Distribution Graph")
+    plt.title("Area Distribution Graph")
     plt.show()
