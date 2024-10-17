@@ -22,10 +22,14 @@ def main():
 
     try:
         df = init_df(args.csv)
+    except FileNotFoundError:
+        print("Invalid path to file.")
+        exit()
     except Exception as e:
-        print(f"Some error: {e.text}")
+        print(f"Some error: {e}")
         print("Please, check path to file or its internals.")
         exit()
+        
 
     print(
         "DataFrame:\n",    
