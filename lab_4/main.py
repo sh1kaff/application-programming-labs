@@ -19,17 +19,8 @@ def init_df(filename):
     return df
 
 
-# def filter_df(df, max_height, max_weight):
-#     return df.groupby("H").filter(
-#         lambda x: x["H"] <= max_height and x["W"] <= max_weight
-#     )
-    # return df.sort_values(
-    #     by="H",
-    #     key=lambda h: h <= max_height
-    # ).sort_values(
-    #     by="W",
-    #     key=lambda w: w <= max_weight
-    # )
+def filter_df(df, max_height, max_weight):
+    return df[(df.H <= max_height) & (df.W <= max_weight)]
 
 def main():
     df = init_df("putin.csv")
@@ -38,7 +29,7 @@ def main():
 
     print(df.loc[:, ("H", "W", "CH")].describe())
 
-    print(filter_df(df, 800, 1200))
+    print(filter_df(df, 800, 1000))
 
 if __name__ == "__main__":
     main()
