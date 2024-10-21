@@ -26,14 +26,12 @@ def init_df(filename: str) -> pd.DataFrame:
     for idx in range( len(df) ):
         path = df.at[idx, "AP"]
         img = imread(path)
-        sizes = None
 
         if img is None:
             df.drop(index=idx, inplace=True)
             continue
 
-        sizes = img.shape + (img.shape[0] * img.shape[1], )
-        df.loc[idx, LABELS[2:]] = sizes
+        df.loc[idx, LABELS[2:]] = img.shape + (img.shape[0] * img.shape[1], )
     
     return df.reset_index(drop=True)
 
